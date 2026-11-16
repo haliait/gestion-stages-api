@@ -1,0 +1,284 @@
+{
+  "info": {
+    "name": "API Gestion des Stages",
+    "description": "Tests du mini-projet. Changez la variable baseUrl : http://127.0.0.1:8000 en local, ou l'URL Render.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "0 - Accueil",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": []
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Statut 200', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "1 - Créer un stage",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/stages",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "stages"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nom_etudiant\": \"Étudiant Test\",\n  \"entreprise\": \"Entreprise Démo\",\n  \"intitule\": \"Développement d'une API REST\",\n  \"date_debut\": \"2026-02-01\",\n  \"date_fin\": \"2026-07-31\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Statut 201 Created', () => pm.response.to.have.status(201));",
+              "const data = pm.response.json();",
+              "pm.collectionVariables.set('stageId', data.id);",
+              "pm.test('Le stage a un id', () => pm.expect(data.id).to.be.a('number'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2 - Lister les stages",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/stages",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "stages"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Statut 200', () => pm.response.to.have.status(200));",
+              "pm.test('Réponse = liste', () => pm.expect(pm.response.json()).to.be.an('array'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "3 - Consulter un stage",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/stages/{{stageId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "stages",
+            "{{stageId}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Statut 200', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "4 - Modifier un stage",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/stages/{{stageId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "stages",
+            "{{stageId}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nom_etudiant\": \"Étudiant Test\",\n  \"entreprise\": \"Nouvelle Entreprise\",\n  \"intitule\": \"API REST + Docker\",\n  \"date_debut\": \"2026-02-01\",\n  \"date_fin\": \"2026-08-31\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Statut 200', () => pm.response.to.have.status(200));",
+              "pm.test('Entreprise modifiée', () => pm.expect(pm.response.json().entreprise).to.eql('Nouvelle Entreprise'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "5 - Supprimer un stage",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/stages/{{stageId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "stages",
+            "{{stageId}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Statut 200', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "6 - Stage inexistant (404)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/stages/{{stageId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "stages",
+            "{{stageId}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Statut 404 Not Found', () => pm.response.to.have.status(404));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "7 - Dates invalides (422)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/stages",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "stages"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nom_etudiant\": \"Étudiant Test\",\n  \"entreprise\": \"Entreprise Démo\",\n  \"intitule\": \"Développement d'une API REST\",\n  \"date_debut\": \"2026-09-01\",\n  \"date_fin\": \"2026-01-01\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Statut 422', () => pm.response.to.have.status(422));"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8000"
+    },
+    {
+      "key": "stageId",
+      "value": "1"
+    }
+  ]
+}

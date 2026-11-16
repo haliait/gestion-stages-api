@@ -1,0 +1,18 @@
+# Environnement virtuel Python
+.venv/
+venv/
+
+# Fichiers générés par Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Base de données locale (ne pas pousser sur GitHub)
+data/
+*.db
+
+# Éditeurs / système
+.vscode/settings.json
+.idea/
+.DS_Store
+Thumbs.db

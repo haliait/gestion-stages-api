@@ -1,0 +1,57 @@
+### Fichier de test pour l'extension VS Code « REST Client » (humao.rest-client)
+### Cliquez sur « Send Request » au-dessus de chaque requête.
+### Pour tester Render, remplacez la ligne @baseUrl par votre URL publique.
+
+@baseUrl = http://127.0.0.1:8000
+
+### Accueil
+GET {{baseUrl}}/
+
+### 1. Créer un stage (attendu : 201)
+# @name creation
+POST {{baseUrl}}/stages
+Content-Type: application/json
+
+{
+  "nom_etudiant": "Étudiant Test",
+  "entreprise": "Entreprise Démo",
+  "intitule": "Développement d'une API REST",
+  "date_debut": "2026-02-01",
+  "date_fin": "2026-07-31"
+}
+
+### 2. Lister les stages (attendu : 200)
+GET {{baseUrl}}/stages
+
+### 3. Consulter le stage créé (attendu : 200)
+GET {{baseUrl}}/stages/{{creation.response.body.id}}
+
+### 4. Modifier le stage (attendu : 200)
+PUT {{baseUrl}}/stages/{{creation.response.body.id}}
+Content-Type: application/json
+
+{
+  "nom_etudiant": "Étudiant Test",
+  "entreprise": "Nouvelle Entreprise",
+  "intitule": "API REST + Docker",
+  "date_debut": "2026-02-01",
+  "date_fin": "2026-08-31"
+}
+
+### 5. Supprimer le stage (attendu : 200)
+DELETE {{baseUrl}}/stages/{{creation.response.body.id}}
+
+### 6. Stage inexistant (attendu : 404)
+GET {{baseUrl}}/stages/99999
+
+### 7. Dates incohérentes (attendu : 422)
+POST {{baseUrl}}/stages
+Content-Type: application/json
+
+{
+  "nom_etudiant": "X",
+  "entreprise": "Y",
+  "intitule": "Z",
+  "date_debut": "2026-09-01",
+  "date_fin": "2026-01-01"
+}
