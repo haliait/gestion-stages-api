@@ -5,10 +5,10 @@ API REST permettant à une école d'ingénieurs de gérer les stages de ses étu
 
 | | |
 |---|---|
-| **URL publique (Render)** | `https://<nom-du-service>.onrender.com` ← *à compléter après déploiement* |
-| **Documentation Swagger** | `https://<nom-du-service>.onrender.com/docs` |
-| **Dépôt GitHub** | `https://github.com/<utilisateur>/gestion-stages-api` ← *à compléter* |
-| **Binôme** | *AIT HAMOU Halima* - *GUIHIA Imane* - *BOURJILA Wiame*  |
+| **URL publique (Render)** | https://gestion-stages-api-iy5u.onrender.com |
+| **Documentation Swagger** | https://gestion-stages-api-iy5u.onrender.com/docs |
+| **Dépôt GitHub** | https://github.com/haliait/gestion-stages-api |
+| **Trinôme** | *AIT HAMOU Halima* - *GUIHIA Imane* - *BOURJILA Wiame*  |
 
 > ⚠️ Exercice pédagogique : données **fictives** uniquement. Sur le plan gratuit de Render, le service se met en veille après 15 min sans trafic (premier appel ≈ 1 min) et la base SQLite est réinitialisée à chaque redémarrage ou redéploiement.
 
@@ -100,6 +100,7 @@ Réponse `201 Created` :
 ```
 
 **Modifier** : `PUT /stages/1` avec le même format de corps (tous les champs).
+
 **Supprimer** : `DELETE /stages/1` → `{"message": "Stage 1 supprimé avec succès"}`
 
 ## 5. Lancer le projet
@@ -123,8 +124,8 @@ docker run -d -p 8000:8000 --name stages-api gestion-stages-api
 ### Tests
 ```bash
 pytest -v                                   # tests automatisés
-./scripts/test_api.sh https://<service>.onrender.com     # curl (bash)
-.\scripts\test_api.ps1 -BaseUrl https://<service>.onrender.com   # PowerShell
+./scripts/test_api.sh https://gestion-stages-api-iy5u.onrender.com     # curl (bash)
+.\scripts\test_api.ps1 -BaseUrl https://gestion-stages-api-iy5u.onrender.com   # PowerShell
 ```
 Postman : importer `postman/Gestion_Stages.postman_collection.json`, régler la variable `baseUrl`, puis *Run collection*.
 
@@ -134,8 +135,8 @@ Postman : importer `postman/Gestion_Stages.postman_collection.json`, régler la 
 2. Render → **New → Web Service** → connexion du dépôt GitHub.
 3. **Language : Docker**, **Instance type : Free**, (Advanced) *Health Check Path* : `/health`.
 4. **Create Web Service** → Render construit l'image depuis le `Dockerfile` et la lance. Render fournit la variable `PORT` (10000), que le `Dockerfile` utilise automatiquement.
-5. URL publique : `https://<nom-du-service>.onrender.com`.
-
+5. URL publique : https://gestion-stages-api-iy5u.onrender.com
+6. Déploiement continu (CI/CD) : chaque `git push` sur la branche `main` déclenche automatiquement une reconstruction et un redéploiement sur Render.
 
 ## 7. Captures d'écran
 
