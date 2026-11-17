@@ -187,3 +187,8 @@ Postman : importer `postman/Gestion_Stages.postman_collection.json`, régler la 
 
 **Tests des endpoints sur l'URL publique**
 ![Tests Render](captures/14-render-tests.png)
+
+
+
+**Validation : champ composé uniquement d'espaces → 422**
+![422 espaces](captures/15-render-422-espaces.png)
