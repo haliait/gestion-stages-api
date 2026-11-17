@@ -95,3 +95,10 @@ def test_filtre_entreprise(client):
     assert r.status_code == 200
     assert all("FiltreCorp" == s["entreprise"] for s in r.json())
     assert len(r.json()) >= 1
+
+
+
+
+def test_champ_vide_ou_espaces(client):
+    vide = {**STAGE, "nom_etudiant": "   "}
+    assert client.post("/stages", json=vide).status_code == 422
